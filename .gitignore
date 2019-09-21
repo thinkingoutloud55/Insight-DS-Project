@@ -1,0 +1,10 @@
+ 
+.ipynb_checkpoints/
+venv/
+static/
+templates/
+requirements.txt
+.DS_Store
+app.py
+
+
