@@ -7,13 +7,15 @@ The success of every business follows two basic principles:  1). Retain existing
 The data I used for this project was collected from three different websites listed below using web scraping.
 
 1). [Wallet Hub](https://wallethub.com)
+
 2). [Consumer Affairs](https://www.consumeraffairs.com)
+
 3). [Influenster](https://www.influenster.com)
 
 The dataset comprises 40 different credit cards with over 30k reviews.
 
 ## Proposed Solution
 
-The major challenge of this project to identify the topics from unstructured text data and rate the topics based on sentiment. Using this result, credit card companies can identify the specific areas to focus their attention in order to satisfy their customers and attract new customers.
+The major challenge of this project to identify the topics from unstructured text data and rate the topics based on sentiment. Using this result, credit card companies can identify the specific areas to focus their attention in order to satisfy their customers and attract new customers. The NLP pipeline for this project is depicted below.
 
 ![NLP pipeline](image/pipepline.png)
