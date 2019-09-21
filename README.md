@@ -16,6 +16,6 @@ The dataset comprises 40 different credit cards with over 30k reviews.
 
 ## Proposed Solution
 
-The major challenge of this project to identify the topics from unstructured text data and rate the topics based on sentiment. Using this result, credit card companies can identify the specific areas to focus their attention in order to satisfy their customers and attract new customers. The NLP pipeline for this project is depicted below.
+The major challenge in this project is to identify the main topics (themes) from unstructured text data and rate the topics based on sentiment. Using this result, credit card companies can identify the specific areas to focus their attention on in order to maximize their customer satisfaction and attract new customers. The NLP pipeline for this project is depicted below.
 
 ![NLP pipeline](image/pipepline.png)
