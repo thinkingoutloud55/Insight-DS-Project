@@ -1,11 +1,21 @@
-# CREDITCARD SNAPSHOT
+# CreditCardSnapshot
 
-## Problem Statement
-The success of every business follows two basic principles:  1) Retain existing customers.
-2) Acquire new customers. This is easier said than done because customer satisfaction is a major challenge that every business faces.  The credit card companies seriously face this challenge due to the competition among them. Therefore, it is imperative that credit card companies examine their customers' opinion about their product. Indeed, customer satisfaction is a recipe for attracting new customers.  The insight gained from analyzing customer opinions  can be effectively used to  develop a custom marketing strategy to positively shift perceptions and attract new customers.   Furthermore, customers also want to entrust their financial future to a reliable credit card company as failure to do so can result in dispute and consequently account closure.  Many businesses tackle these problems in different ways, for instance by conducting online survey or using online reviews of their product provided by the customers. In this project, I undertook this challenge using [Natural Language Processing](https://en.wikipedia.org/wiki/Natural_language_processing) techniques.
+##  Overview
+The success of every business relies on two basic principles:  1) Customer retention.
+2) Customer acquisition. This is a major challenge that every business faces.  The credit card companies  face this challenge frequently due to the competition between various credit card companies. Therefore, it is imperative that credit card companies examine their customers' opinion about their product. Indeed, customer satisfaction is a recipe for attracting new customers.  The insight gained from analyzing customer opinions  can be effectively used to develop a custom marketing strategy to positively shift perceptions and attract new customers.    Furthermore, customers also want to entrust their financial future to a reliable credit card company as failure to do so can result in dispute and consequently account closure.   To develop an effective marketing strategy, the company needs to collect feedbacks from customers by conducting online survey of its product or by using online reviews provided by the customers.
 
-## Data Collection
-The data I used for this project was collected from three different websites listed below using web scraping.
+## What is CreditCardSnapshot?
+CreditCardSnapshot is a web application that provides an overall customer satisfaction of each credit card (about 40 different cards) based on different categories such as Online Experience, Customer Service, Interest Rate, Cash Back and Reward Points, Travel Rewards, Build or Rebuild Credit, and User Recommendation. Most importantly,  CreditCardSnapshot identifies these categories using unsupervised learning methods of [Natural Language Processing](https://en.wikipedia.org/wiki/Natural_language_processing) and [Topic Modeling](https://en.wikipedia.org/wiki/Topic_model) with [Latent Dirichlet Allocation](https://en.wikipedia.org/wiki/Latent_Dirichlet_allocation).
+
+
+## Why CreditCardSnapshot?
+CreditCardSnapshot aims to help credit companies acquire new customers by showcasing the rate of customer satisfaction in different categories, which a potential customer cannot extract by reading thousands of online reviews. Essentially, any credit card company can use CreditCardSnapshot as an advertisement web application to attract new customers to apply for its credit card. In addition, CreditCardSnapshot also helps credit card companies identify area of interest that needs improvement, which helps maximize their chances of acquiring new customers.  In contrast, potential customers can also use CreditCardSnapshot to filter out different credit card they don't like.
+
+## How to use CreditCardSnapshot
+CreditCardSnapshot has a drop-down menu of 40 credit cards. The user (either a credit company or a potential customer) can choose any credit card and hit the submit button, which opens the result page.
+
+## What type of data was used for CreditCardSnapshot?
+The data that was used to create CreditCardSnapshot was collected from three different websites using web scraping.
 
 1). [Wallet Hub](https://wallethub.com)
 
@@ -13,10 +23,12 @@ The data I used for this project was collected from three different websites lis
 
 3). [Influenster](https://www.influenster.com)
 
-The dataset comprises 40 different credit cards with over 30k reviews.
+The dataset comprises 40 different credit cards with over 30k unstructured text reviews.
 
-## Proposed Solution with NLP Pipeline
-
-The major challenge in this project is to identify the main topics (themes) from unstructured text data and rate the topics based on sentiment. Using this result, credit card companies can identify the specific areas to focus their attention on in order to maximize their customer satisfaction and attract new customers. The NLP pipeline for this project is depicted below.
+## How was CreditCardSnapshot implemented?
+CreditCardSnapshot was implemented using unsupervised learning methods for natural language processing in Python, topic modeling with LDA, and sentiment analysis using VADER and TextBlob.  The NLP pipeline for this project is depicted below.
 
 ![NLP pipeline](image/pipepline.png)
+
+## Summary and Outlook
+CreditCardSnapshot is a project I did as an Insight Fellow. The main goal of this project is to help credit companies acquire new customers and also help potential customers find a reliable credit card company.  Currently, CreditCardSnapshot contains almost all the major credit card companies and few unpopular ones, and the web app runs based on the most recent reviews at the time this project was conducted. In the future, I would like CreditCardSnapshot to update in real time by streaming data from different review platforms.

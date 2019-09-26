@@ -2,9 +2,7 @@
 .ipynb_checkpoints/
 venv/
 static/
-templates/
-requirements.txt
+webApp/
 .DS_Store
-app.py
 
 
