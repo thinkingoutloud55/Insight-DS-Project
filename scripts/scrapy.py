@@ -41,15 +41,21 @@ def get_links(start_url):
     total = len(all_links)
     for link in all_links:
         if link:
-            links.add('https://www.influenster.com/'+link['href'])
+            links.add('https://www.influenster.com/' + link['href'])
         progress(count, total - 1, "Fetching links")
         count += 1
     return links
 
 
+# alternative links to next page
+url_links = []
+for i in range(1, 76):
+    urls = 'url_page={}'.format(i)
+    url_links.append(urls)
+
+
 def get_data(start_url):
     """Fetch data from each link"""
- #  FIXME used before being declared in the code (maybe start_url?)
     links = url_links  # get_links(start_url)
     count = 0
     total = len(links)

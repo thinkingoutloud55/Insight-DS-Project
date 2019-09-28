@@ -1,8 +1,7 @@
- 
+
 .ipynb_checkpoints/
 venv/
-static/
-webApp/
 .DS_Store
-
-
+demo/
+scrapy/
+webApp/
