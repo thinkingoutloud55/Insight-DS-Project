@@ -26,7 +26,7 @@ The data that was used to create CreditCardSnapshot was collected from three dif
 The dataset comprises 40 different credit cards with over 30k unstructured text reviews.
 
 
-## Exploratory Data Analysis 
+## Exploratory data analysis  for CreditCardSnapshot
 
 To explore my data, I looked at the  star rating customers gave to each credit card as shown below.
 
