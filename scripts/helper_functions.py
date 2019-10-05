@@ -1,5 +1,7 @@
 # Created by Solomon Owerre.
+import re
 import nltk
+import gensim
 from nltk.tokenize import RegexpTokenizer
 from nltk.stem import WordNetLemmatizer, PorterStemmer
 from nltk.tokenize import sent_tokenize
@@ -7,6 +9,8 @@ from nltk.tokenize.treebank import TreebankWordDetokenizer
 from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from collections import Counter
+from gensim import corpora, models
+from gensim.models import CoherenceModel, LdaModel, LdaMulticore
 
 
 def review_to_sent(data, review, company):
@@ -110,3 +114,68 @@ def topic_threshold(doc_topic, topic_vector, threshold=None):
             topic_num = 'None'
         topic_num_list.append(topic_num)
     return topic_num_list
+
+
+def compute_coherence_lda(corpus, dictionary, start=None, limit=None, step=None):
+    """Compute c_v coherence for various number of topics """
+    topic_coherence = []
+    model_list = []
+    tokens_list = df.trigram_tokens.values.tolist()
+    texts = [[token for sub_token in tokens_list for token in sub_token]]
+    for num_topics in range(start, limit, step):
+        model = LdaModel(corpus=corpus, id2word=dictionary, random_state=0, num_topics=num_topics,
+                         alpha='auto', eta='auto')
+        model_list.append(model)
+        coherencemodel = CoherenceModel(
+            model=model, texts=texts, dictionary=dictionary, coherence='c_v')
+        topic_coherence.append(coherencemodel.get_coherence())
+
+    return model_list, topic_coherence
+
+
+def add_bigram(token_list):
+    """add bigrams in the data"""
+    bigram = gensim.models.Phrases(token_list)
+    bigram = [bigram[line] for line in token_list]
+    return bigram
+
+
+def add_trigram(token_list):
+    """add trigrams in the data"""
+    bigram = add_bigram(token_list)
+    trigram = gensim.models.Phrases(bigram)
+    trigram = [trigram[line] for line in bigram]
+    return trigram
+
+
+def doc_term_matrix(data, text):
+    """Returns document term matrix, vocabulary, and word id"""
+    counter = CountVectorizer(tokenizer=my_tokenizer, ngram_range=(1, 1))
+    X = counter.fit_transform(data[text]).toarray()
+    bow_docs = pd.DataFrame(X, columns=counter.get_feature_names())
+    vocab = tuple(bow_docs.columns)
+    word2id = dict((v, idx) for idx, v in enumerate(vocab))
+    return X, vocab, word2id
+
+
+def credit_card(data):
+    """Returns topics, topic_sentiments, and credit cards"""
+    topic_list = data.topics.unique()
+    card_lists = []
+    topic_sentiment = []
+    topics = []
+    for i in range(len(topic_list)):
+        specific = df[df.topics == topic_list[i]][[
+            'topics', 'creditcards', 'sentiments']].reset_index(drop=True)
+        group_table = specific.groupby('creditcards')[
+            'sentiments'].mean().sort_values(ascending=False)
+        card_lists.append(list(group_table.index))
+        topic_sentiment.append(group_table.values.round(2))
+        for j in range(len(group_table)):
+            topics.append(topic_list[i])
+
+    # Convert the list of lists to list
+    card_list = [card for sub_card in card_lists for card in sub_card]
+    topic_sen = [sen for sub_sen in topic_sentiment for sen in sub_sen]
+
+    return topics, card_list, topic_sen

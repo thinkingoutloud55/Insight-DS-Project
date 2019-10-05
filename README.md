@@ -25,6 +25,16 @@ The data that was used to create CreditCardSnapshot was collected from three dif
 
 The dataset comprises 40 different credit cards with over 30k unstructured text reviews.
 
+
+## Exploratory Data Analysis 
+
+To explore my data, I looked at the  star rating customers gave to each credit card as shown below.
+
+![Star rating](figures/fig1.pdf)
+
+We can see that there is a severe imbalance in the rating as most customer reviews were rated either 5 or 1.
+
+
 ## How was CreditCardSnapshot implemented?
 [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) was implemented using unsupervised learning methods for natural language processing in Python, topic modeling with LDA, and sentiment analysis using VADER and TextBlob.  The NLP pipeline for this project is depicted below.
 
