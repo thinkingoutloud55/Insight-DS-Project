@@ -32,9 +32,13 @@ To explore my data, I looked at the  star rating customers gave to each credit c
 
 ![Star rating](image/rating.png)
 
-We can see that there is a severe imbalance in the rating as most customer reviews were rated either 5 or 1. I also looked at the most frequent words customer used in credit reviews. From the figure shown below, we can see that cash back, reward, payment, fee, and customer service are frequently used. This also suggest that we need to add n-grams when modeling the topics
+We can see that there is a severe imbalance in the rating as most customer reviews were rated either 5 or 1. 
+
+I also looked at the most frequent words customer used in credit reviews. From the figure shown below, we can see that cash back, reward, payment, fee, and customer service are frequently used.
 
 ![Frequent word count](image/word_freq.png)
+
+ This also suggest that we need to add n-grams when modeling the topics
 
 
 ## How was CreditCardSnapshot implemented?
