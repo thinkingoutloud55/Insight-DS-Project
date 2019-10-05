@@ -30,7 +30,7 @@ The dataset comprises 40 different credit cards with over 30k unstructured text 
 
 To explore my data, I looked at the  star rating customers gave to each credit card as shown below.
 
-![Star rating](image/rating.pdf)
+![Star rating](image/rating.png)
 
 We can see that there is a severe imbalance in the rating as most customer reviews were rated either 5 or 1.
 
