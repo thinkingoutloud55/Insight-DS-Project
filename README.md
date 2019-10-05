@@ -34,7 +34,7 @@ To explore my data, I looked at the  star rating customers gave to each credit c
 
 We can see that there is a severe imbalance in the rating as most customer reviews were rated either 5 or 1. 
 
-In addition, I also looked at the most frequent words customer used in credit reviews. From the figure shown below, we can see that cash back, reward, payment, fee, and customer service are frequently used.
+In addition, I also looked at the most frequent words customers used in credit reviews. From the figure shown below, we can see that cash back, reward, payment, fee, and customer service are frequently used.
 
 ![Frequent word count](image/word_freq.png)
 
