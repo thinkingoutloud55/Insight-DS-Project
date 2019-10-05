@@ -38,7 +38,7 @@ In addition, I also looked at the most frequent words customer used in credit re
 
 ![Frequent word count](image/word_freq.png)
 
- This also suggest that we need to add [n-gram](https://en.wikipedia.org/wiki/N-gram) when modeling the topics
+ This also suggests that we need to add [n-gram](https://en.wikipedia.org/wiki/N-gram) when modeling the topics
 
 
 ## How was CreditCardSnapshot implemented?
