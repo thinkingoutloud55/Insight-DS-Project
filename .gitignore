@@ -5,3 +5,4 @@ venv/
 demo/
 scrapy/
 webApp/
+gensim_topic_modeling_sentences.ipynb

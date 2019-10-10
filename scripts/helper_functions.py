@@ -85,6 +85,20 @@ def word_lemmatizer(text):
     return text
 
 
+# By inspection, I will add more stopwords to the default nltk stopwords
+my_stop_words = ['capital', 'america', 'redcard', 'target', 'amazon', 'card', 'credit', 'merrick', 'discover', 'citi',
+                 'amex', 'express', 'go', 'paypal', 'chase', 'american', 'one', 'would', 'ask', 'really',
+                 'get', 'know', 'express', 'ever', 'use', 'say', 'recently', 'also', 'always', 'give',  'tell',
+                 'take', 'never', 'costco', 'time', 'make', 'try', 'number', 'send', 'new', 'even',
+                 'sony', 'us', 'husband', 'car', 'capitol', 'wife', 'book', 'could', 'okay', 'mastercard', 'want',
+                 'honestly', 'eppicard', 'need', 'family', 'cap', 'another', 'line', 'com', 'fico', 'quicksilver',
+                 'link', 'sear', 'pay', 'may', 'company', 'bank', 'call', 'account', 'receive', 'told', 'day', 'well',
+                 'think', 'look', 'sure', 'easy', 'money', 'people', 'business', 'review', 'something', 'come', 'away']
+
+stop_words = stopwords.words('english')
+stop_words.extend(my_stop_words)
+
+
 def my_tokenizer(text):
     """Tokenize review text"""
     text = text.lower()  # lower case
@@ -149,13 +163,14 @@ def add_trigram(token_list):
 
 
 def doc_term_matrix(data, text):
-    """Returns document term matrix, vocabulary, and word id"""
+    """Returns document-term matrix, vocabulary, and word_id"""
     counter = CountVectorizer(tokenizer=my_tokenizer, ngram_range=(1, 1))
-    X = counter.fit_transform(data[text]).toarray()
+    data_vectorized = counter.fit_transform(data[text])
+    X = data_vectorized.toarray()
     bow_docs = pd.DataFrame(X, columns=counter.get_feature_names())
     vocab = tuple(bow_docs.columns)
     word2id = dict((v, idx) for idx, v in enumerate(vocab))
-    return X, vocab, word2id
+    return data_vectorized, vocab, word2id, counter
 
 
 def credit_card(data):
