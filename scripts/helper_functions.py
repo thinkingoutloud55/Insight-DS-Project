@@ -10,7 +10,10 @@ from nltk.corpus import wordnet
 from nltk.corpus import stopwords
 from collections import Counter
 from gensim import corpora, models
+from gensim.models.wrappers import LdaMallet
 from gensim.models import CoherenceModel, LdaModel, LdaMulticore
+
+mallet_path = "/Users/sowerre/mallet-2.0.8/bin/mallet"
 
 
 def review_to_sent(data, review, company):
@@ -137,8 +140,12 @@ def compute_coherence_lda(corpus, dictionary, start=None, limit=None, step=None)
     tokens_list = df.trigram_tokens.values.tolist()
     texts = [[token for sub_token in tokens_list for token in sub_token]]
     for num_topics in range(start, limit, step):
-        model = LdaModel(corpus=corpus, id2word=dictionary, random_state=0, num_topics=num_topics,
-                         alpha='auto', eta='auto')
+        model = LdaMulticore(corpus=corpus, id2word=dictionary, num_topics=num_topics,
+                             eta='auto', workers=4, passes=20, iterations=100,
+                             random_state=42, eval_every=None,
+                             alpha='asymmetric',  # shown to be better than symmetric in most cases
+                             decay=0.5, offset=64  # best params from Hoffman paper
+                             )
         model_list.append(model)
         coherencemodel = CoherenceModel(
             model=model, texts=texts, dictionary=dictionary, coherence='c_v')
