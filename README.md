@@ -46,12 +46,18 @@ In addition, I also looked at the most frequent words customers used in credit r
  This also suggests that we need to add [n-gram](https://en.wikipedia.org/wiki/N-gram) when modeling the topics
 
 
-## How was CreditCardSnapshot implemented?
+## How was [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) implemented?
 [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) was implemented using unsupervised learning methods for natural language processing in Python, topic modeling with LDA, and sentiment analysis using VADER and TextBlob.  The NLP pipeline for this project is depicted below.
 
 ![NLP pipeline](image/pipepline.png)
 
-The topic distributions generated using [pyLDAvis](https://github.com/bmabey/pyLDAvis) is  shown below.
+## How was [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) validated?
+
+The validation was based on the document-topic matrix shown below. It shows the probability distribution that a topic belongs to a document. We assigned a topic to a document if its probability of belonging to that document is greater than 0.7. This ensures that the topic clearly describes the document it is assigned to.
+
+![LDA topic model](image/doc_topic_matrix.png)
+
+As we can see above, the document-topic matrix contains a lot of zeros which means that the topics are clearly separated as corroborated  by the topic distributions shown below.
 
 ![LDA topic model](image/topic_model.png)
 
