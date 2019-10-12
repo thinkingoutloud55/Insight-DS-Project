@@ -50,8 +50,11 @@ def webapp_data(data, threshold=None):
             total_dict[pos[0]] = [pos[1], neg[1], neu[1]]
         # for google bar chart display
         task_dict = {'Task': ['Satisfied', 'Unsatisfied', 'Neutral']}
+        # sort total_dict
+        sorted_total_dict = dict(
+            sorted(total_dict.items(), key=lambda kv: kv[1], reverse=True))
         # join dictionary so that  task_dict appears first
-        topic_dict = {**task_dict, **total_dict}
+        topic_dict = {**task_dict, **sorted_total_dict}
         df = df.append({'creditcard': card, 'topic': topic_dict,
                         'pos_neg_sentence': sent}, ignore_index=True)
     return df
