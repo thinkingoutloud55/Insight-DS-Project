@@ -19,6 +19,9 @@ The success of every business relies on two basic principles:
 ## How to use [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/)
 [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) has a drop-down menu of 40 credit cards. The user (either a credit company or a potential customer) can choose any credit card and hit the submit button, which opens the result page.
 
+![Web app](image/app.png)
+
+
 ## What type of data was used for [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/)?
 The data that was used to create [CreditCardSnapshot](https://creditcardsnapshot.herokuapp.com/) was collected from three different websites using web scraping.
 
