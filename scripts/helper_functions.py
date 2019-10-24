@@ -12,6 +12,13 @@ from collections import Counter
 from gensim import corpora, models
 from gensim.models.wrappers import LdaMallet
 from gensim.models import CoherenceModel, LdaModel, LdaMulticore
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from gensim.models.word2vec import Word2Vec
+from nltk.stem import WordNetLemmatizer, PorterStemmer
+# Model performance metrics
+from sklearn.model_selection import cross_val_score, cross_val_predict
+from sklearn.metrics import confusion_matrix, classification_report, accuracy_score, auc, recall_score
+from sklearn.metrics import roc_curve, roc_auc_score, average_precision_score, precision_recall_curve
 
 mallet_path = "/Users/sowerre/mallet-2.0.8/bin/mallet"
 
@@ -180,6 +187,20 @@ def doc_term_matrix(data, text):
     return data_vectorized, vocab, word2id, counter
 
 
+def word2vec_embedding(list_of_tokens):
+    """Train word2vec on the corpus"""
+    num_features = 300
+    min_word_count = 1
+    num_workers = 2
+    window_size = 6
+    subsampling = 1e-3
+
+    model = Word2Vec(list_of_tokens, workers=num_workers,
+                     size=num_features, min_count=min_word_count,
+                     window=window_size, sample=subsampling)
+    return model
+
+
 def credit_card(data):
     """Returns topics, topic_sentiments, and credit cards"""
     topic_list = data.topics.unique()
@@ -201,3 +222,112 @@ def credit_card(data):
     topic_sen = [sen for sub_sen in topic_sentiment for sen in sub_sen]
 
     return topics, card_list, topic_sen
+
+
+def Plot_ROC_Curve_and_PRC_Cross_Val(model, n_training_samples, n_training_labels, color=None, label=None):
+    """ Plot of ROC and PR Curves for the cross-validation training set"""
+    model.fit(n_training_samples, n_training_labels)
+
+    y_pred_proba = cross_val_predict(model, n_training_samples, n_training_labels, cv=5,
+                                     method="predict_proba")
+
+    # Compute the fpr and tpr for each classifier
+    fpr, tpr, thresholds = roc_curve(n_training_labels, y_pred_proba[:, 1])
+
+    # Compute the precisions and recalls for the classifier
+    precisions, recalls, thresholds = precision_recall_curve(
+        n_training_labels, y_pred_proba[:, 1])
+
+    # Compute the area under the ROC curve for each classifier
+    area_auc = roc_auc_score(n_training_labels, y_pred_proba[:, 1])
+
+    # Compute the area under the PR curve for the classifier
+    area_prc = auc(recalls, precisions)
+
+    # ROC Curve
+    plt.subplot(121)
+    plt.plot(fpr, tpr, color=color, label=(label) % area_auc)
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.axis([0, 1, 0, 1])
+    plt.xlabel('False positive rate (FPR)')
+    plt.ylabel('True positive rate (TPR)')
+    plt.title('ROC Curve on CV set')
+    plt.legend(loc='best')
+
+    # PR Curve
+    plt.subplot(122)
+    plt.plot(recalls, precisions, color=color, label=(label) % area_prc)
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision-Recall Curve on CV set')
+    plt.legend(loc='best')
+
+
+def Test_Prediction(model, n_training_samples, n_training_labels, n_test_samples, n_test_labels):
+    """ This function returns prediction on the test set """
+    # Fit the training set
+    model.fit(n_training_samples, n_training_labels)
+
+    # Make prediction on the test set
+    y_predict = model.predict(n_test_samples)
+
+    # Compute the accuracy of the model
+    accuracy = accuracy_score(n_test_labels, y_predict)
+
+    # Predict probability
+    y_predict_proba = model.predict_proba(n_test_samples)[:, 1]
+
+    print(
+        '****************************************************************************')
+    print('Test accuracy:  %f' % (accuracy))
+    print('AUROC: %f' % (roc_auc_score(n_test_labels, y_predict_proba)))
+    print('AUPRC: %f' %
+          (average_precision_score(n_test_labels, y_predict_proba)))
+    print('Predicted classes:', np.unique(y_predict))
+    print('Confusion matrix:\n', confusion_matrix(n_test_labels, y_predict))
+    print('Classification report:\n',
+          classification_report(n_test_labels, y_predict))
+    print(
+        '****************************************************************************')
+
+
+def Plot_ROC_Curve_and_PRC(model, n_training_samples, n_training_labels, n_test_samples, n_test_labels,
+                           color=None, label=None):
+    """ Plot of ROC and PR Curves for the test set"""
+
+    # fit the model
+    model.fit(n_training_samples, n_training_labels)
+
+    # Predict probability
+    y_pred_proba = model.predict_proba(n_test_samples)[:, 1]
+
+    # Compute the fpr and tpr for each classifier
+    fpr, tpr, thresholds = roc_curve(n_test_labels, y_pred_proba)
+
+    # Compute the precisions and recalls for the classifier
+    precisions, recalls, thresholds = precision_recall_curve(
+        n_test_labels, y_pred_proba)
+
+    # Compute the area under the ROC curve for each classifier
+    area_auc = roc_auc_score(n_test_labels, y_pred_proba)
+
+    # Compute the area under the PR curve for the classifier
+    area_prc = auc(recalls, precisions)
+
+    # ROC Curve
+    plt.subplot(121)
+    plt.plot(fpr, tpr, color=color, label=(label) % area_auc)
+    plt.plot([0, 1], [0, 1], 'k--')
+    plt.axis([0, 1, 0, 1])
+    plt.xlabel('False positive rate (FPR)')
+    plt.ylabel('True positive rate (TPR)')
+    plt.title('ROC Curve on test set')
+    plt.legend(loc='best')
+
+    # PR Curve
+    plt.subplot(122)
+    plt.plot(recalls, precisions, color=color, label=(label) % area_prc)
+    plt.xlabel('Recall')
+    plt.ylabel('Precision')
+    plt.title('Precision-Recall Curve on test set')
+    plt.legend(loc='best')
